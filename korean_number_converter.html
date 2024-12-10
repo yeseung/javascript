@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korean Number Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #wr_1_text {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+    
+  <!--    
+  https://sir.kr/g5_skin/59606
+  -->    
+  
+  <h1>Korean Number Converter</h1>
+  <p>Enter a number to convert it into Korean numerals:</p>
+  <input type="text" id="wr_1" placeholder="Enter number" />
+  <button onclick="getKoreanNumber()">Convert</button>
+  <p id="wr_1_text"></p>
+
+  <script>
+    function getKoreanNumber() {
+      const input = document.getElementById('wr_1').value;
+      let number = parseInt(input.replace(/,/g, ''), 10);
+      if (isNaN(number)) {
+        document.getElementById('wr_1_text').innerHTML = "Invalid input";
+        return;
+      }
+
+      const koreanNumber = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+      const tenUnit = ['', '십', '백', '천'];
+      const tenThousandUnit = ['조', '억', '만', ''];
+      const unit = 10000;
+      let result = '';
+
+      let unitIndex = tenThousandUnit.length - 1;
+
+      while (number > 0) {
+        const chunk = number % unit;
+        const chunkArray = chunk.toString().split('');
+        const length = chunkArray.length - 1;
+
+        const chunkToKorean = chunkArray.reduce((acc, value, index) => {
+          const digit = parseInt(value, 10);
+          if (digit === 0) return acc;
+          const koreanDigit = (index < length && digit === 1) ? '' : koreanNumber[digit];
+          return acc + koreanDigit + tenUnit[length - index];
+        }, '');
+
+        if (chunkToKorean) {
+          result = `${chunkToKorean}${tenThousandUnit[unitIndex]} ${result}`;
+        }
+
+        number = Math.floor(number / unit);
+        unitIndex--;
+      }
+
+      document.getElementById('wr_1_text').innerHTML = result.trim() + '원';
+    }
+  </script>
+</body>
+</html>
