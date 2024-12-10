@@ -1,44 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Korean Number Converter</title>
+  <title>숫자를 한글로 변환</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
     }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
     input, button {
-      margin: 10px 0;
       padding: 10px;
+      margin-bottom: 10px;
+      width: 300px;
       font-size: 16px;
     }
-    #wr_1_text {
-      margin-top: 10px;
+    #result {
+      margin-top: 15px;
+      font-size: 1.2em;
       font-weight: bold;
-      font-size: 18px;
+      color: #333;
     }
   </style>
 </head>
 <body>
     
+    
   <!--    
   https://sir.kr/g5_skin/59606
-  -->    
-  
-  <h1>Korean Number Converter</h1>
-  <p>Enter a number to convert it into Korean numerals:</p>
-  <input type="text" id="wr_1" placeholder="Enter number" />
-  <button onclick="getKoreanNumber()">Convert</button>
-  <p id="wr_1_text"></p>
+  -->  
+    
+    
+  <h1>숫자를 한글로 변환</h1>
+  <form onsubmit="return false;">
+    <label for="numberInput">숫자를 입력하세요:</label>
+    <input type="text" id="numberInput" placeholder="숫자를 입력하세요 (예: 123456)" />
+    <button onclick="convertToKorean()">변환</button>
+  </form>
+  <div id="result"></div>
 
   <script>
-    function getKoreanNumber() {
-      const input = document.getElementById('wr_1').value;
+    function convertToKorean() {
+      const input = document.getElementById('numberInput').value;
       let number = parseInt(input.replace(/,/g, ''), 10);
+
       if (isNaN(number)) {
-        document.getElementById('wr_1_text').innerHTML = "Invalid input";
+        document.getElementById('result').innerHTML = "올바른 숫자를 입력해주세요.";
         return;
       }
 
@@ -70,7 +81,7 @@
         unitIndex--;
       }
 
-      document.getElementById('wr_1_text').innerHTML = result.trim() + '원';
+      document.getElementById('result').innerHTML = result.trim() + '원';
     }
   </script>
 </body>
